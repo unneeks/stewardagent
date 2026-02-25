@@ -18,27 +18,40 @@ function App() {
   const playIntervalRef = useRef(null);
 
   useEffect(() => {
+    let isMounted = true;
     async function loadData() {
       try {
         const invs = await fetchInvestigations();
         const state = await fetchLatestState();
         const learning = await fetchLearningSummary();
 
-        setInvestigations(invs);
-        setLatestState(state);
-        setLearningSummary(learning);
+        if (isMounted) {
+          setInvestigations(invs);
+          setLatestState(state);
+          setLearningSummary(learning);
 
-        if (invs.length > 0) {
-          setSelectedInvestigation(invs[invs.length - 1]); // Select latest by default
+          if (invs.length > 0 && !selectedInvestigation) {
+            setSelectedInvestigation(invs[invs.length - 1]);
+          }
         }
       } catch (err) {
         console.error("Failed to load data:", err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
+
+    // Initial load
     loadData();
-  }, []);
+
+    // Poll every 3 seconds for DB updates
+    const pollInterval = setInterval(loadData, 3000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(pollInterval);
+    };
+  }, [selectedInvestigation]);
 
   // Playback Logic
   useEffect(() => {
@@ -81,6 +94,11 @@ function App() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <BrainCircuit size={24} color="var(--accent-purple)" />
             <h1>Cognition_Play</h1>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: 'var(--accent-green)', background: 'rgba(16, 185, 129, 0.1)', padding: '4px 8px', borderRadius: '12px', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+            <div className="animate-pulse" style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--accent-green)' }}></div>
+            Listening to DB...
           </div>
 
           <div style={{ display: 'flex', gap: '8px' }}>

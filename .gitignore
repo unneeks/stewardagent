@@ -1,0 +1,8 @@
+.DS_Store
+*.db
+*.log
+node_modules/
+.env
+__pycache__/
+*.pyc
+pr_review_report.md

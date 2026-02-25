@@ -1,30 +1,21 @@
-from src.db import init_db
-from src.mock_data import populate_mock_data
-from src.agent_loop import run_simulation
-import os
-
-def main():
-    print("=" * 50)
-    print("Initializing Semantic Governance Agent Demo...")
-    print("=" * 50)
-    
-    # Ensure fresh state
-    db_path = os.path.join(os.path.dirname(__file__), "..", "data", "governance.db")
-    if os.path.exists(db_path):
-        os.remove(db_path)
-    
-    print("\n[+] Setting up Database Schema...")
-    init_db()
-    
-    print("\n[+] Populating Mock Data (Terms, Rules, Lineage, Models)...")
-    populate_mock_data()
-    
-    print("\n[+] Starting 30-Day Agent Simulation Loop...")
-    print("=" * 50)
-    run_simulation(30)
-    
-    print("=" * 50)
-    print("Simulation Complete. Events written to EVENT_LOG table.")
+import sys
 
 if __name__ == "__main__":
-    main()
+    print('''
+    The Semantic Governance Agent has been upgraded to a manual-trigger pipeline execution model!
+    
+    Instead of running a simulated 30-day loop, you now trigger the pipeline and agent day-by-day to watch the learning behavior in action:
+    
+    1. Run Day 1 Pipeline (Generates data & DB schemas natively):
+       python3 src/pipeline.py 1
+       
+    2. Run Day 1 Agent (Investigates risks & raises Pull Request):
+       python3 src/agent.py 1
+       
+    3. Run Day 2 Pipeline (Agent's PR is "merged", improving specific DQ scores):
+       python3 src/pipeline.py 2
+       
+    4. Run Day 2 Agent (Agent identifies score improvement & emits learning outcome):
+       python3 src/agent.py 2
+    ''')
+    sys.exit(0)

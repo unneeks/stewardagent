@@ -44,8 +44,8 @@ def populate_mock_data():
     os.makedirs(models_dir, exist_ok=True)
     
     sql_models = {
-        'bronze_raw_loans': "SELECT application_id, coalesce(income_reported, '0') as income_str FROM ext_application_source", # Risky coalesce
-        'silver_stg_loans': "SELECT id, cast(income_str as decimal(18,2)) as verified_income FROM bronze_raw_loans", # Risky cast
+        'bronze_raw_loans': "SELECT application_id, coalesce(income_reported, '0') as income_str, requested_amount FROM ext_application_source", # Risky coalesce
+        'silver_stg_loans': "SELECT application_id as id, cast(income_str as decimal(18,2)) as verified_income, requested_amount as loan_amount FROM bronze_raw_loans", # Risky cast
         'gold_fct_approvals': "SELECT a.id, a.loan_amount, b.status as final_status FROM silver_stg_loans a LEFT JOIN reference_decisions b ON a.id = b.app_id" # Risky join
     }
     

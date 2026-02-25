@@ -67,6 +67,16 @@ def init_db():
             metrics TEXT,        -- JSON string
             explanation TEXT
         );
+        
+        CREATE TABLE IF NOT EXISTS AGENT_MEMORY(
+            pr_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp TEXT,
+            tde_id TEXT,
+            model_name TEXT,
+            suggestion TEXT,
+            status TEXT,         -- 'open', 'merged'
+            FOREIGN KEY (tde_id) REFERENCES TDE(tde_id)
+        );
     ''')
     conn.commit()
     conn.close()

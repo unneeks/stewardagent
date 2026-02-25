@@ -1,1 +1,1 @@
-SELECT id, cast(income_str as decimal(18,2)) as verified_income FROM bronze_raw_loans
+SELECT application_id as id, cast(income_str as decimal(18,2)) as verified_income, requested_amount as loan_amount FROM bronze_raw_loans

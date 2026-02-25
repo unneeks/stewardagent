@@ -23,3 +23,15 @@ export async function fetchLearningSummary() {
     if (!res.ok) throw new Error("Failed to fetch learning summary");
     return res.json();
 }
+
+export async function approvePullRequest(pr_id) {
+    const res = await fetch(`${API_BASE}/approve_pr/${pr_id}`, { method: 'POST' });
+    if (!res.ok) throw new Error("Failed to approve pull request");
+    return res.json();
+}
+
+export async function fetchConfig() {
+    const res = await fetch(`${API_BASE}/config`);
+    if (!res.ok) throw new Error("Failed to fetch configuration config");
+    return res.json();
+}

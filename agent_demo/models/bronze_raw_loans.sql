@@ -1,1 +1,1 @@
-SELECT application_id, coalesce(income_reported, '0') as income_str FROM ext_application_source
+SELECT application_id, coalesce(income_reported, '0') as income_str, requested_amount FROM ext_application_source

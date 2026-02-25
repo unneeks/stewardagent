@@ -143,8 +143,41 @@ def get_learning_summary():
                 "score_after": event["metrics"].get("score", 0),
                 "timestamp": event["timestamp"]
             })
+            return {"improvements": improvements}
+
+@app.post("/approve_pr/{pr_id}")
+def approve_pr(pr_id: int):
+    """Marks a PR in AGENT_MEMORY as 'merged'."""
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE AGENT_MEMORY SET status = 'merged' WHERE pr_id = ?", (pr_id,))
+    conn.commit()
+    conn.close()
+    return {"status": "success", "pr_id": pr_id}
+
+@app.get("/config")
+def get_config():
+    """Returns dynamic configuration data like the GitHub repository URL."""
+    import subprocess
+    try:
+        result = subprocess.run(
+            ["git", "config", "--get", "remote.origin.url"], 
+            cwd=os.path.dirname(DB_PATH), 
+            capture_output=True, 
+            text=True, 
+            check=True
+        )
+        url = result.stdout.strip()
+        # Convert ssh or git:// to https format
+        if url.startswith("git@github.com:"):
+            url = url.replace("git@github.com:", "https://github.com/").replace(".git", "")
+        elif url.endswith(".git"):
+            url = url[:-4]
             
-    return {"improvements": improvements}
+        return {"github_repo_url": url}
+    except Exception as e:
+        print(f"Error fetching git remote: {e}")
+        return {"github_repo_url": "https://github.com/unknown/repository"}
 
 if __name__ == "__main__":
     import uvicorn
