@@ -1,0 +1,1 @@
+SELECT transaction_id, cast(amount as varchar) as txn_amt FROM raw_sales

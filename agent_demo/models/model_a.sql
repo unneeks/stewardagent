@@ -1,0 +1,1 @@
+SELECT id, coalesce(email, 'unknown') as email_address FROM raw_users

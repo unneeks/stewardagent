@@ -1,0 +1,1 @@
+SELECT a.user_id as usr_identifier, b.profile_id FROM users a LEFT JOIN profiles b ON a.user_id = b.user_id

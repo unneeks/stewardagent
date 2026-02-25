@@ -1,0 +1,16 @@
+income:
+  required_validations:
+    - positive
+    - numeric
+loan_amount:
+  required_validations:
+    - numeric
+    - range
+status:
+  required_validations:
+    - allowed_values
+    - not_null
+id:
+  required_validations:
+    - uniqueness
+    - not_null

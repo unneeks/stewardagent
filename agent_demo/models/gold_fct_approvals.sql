@@ -1,0 +1,1 @@
+SELECT a.id, a.loan_amount, b.status as final_status FROM silver_stg_loans a LEFT JOIN reference_decisions b ON a.id = b.app_id
