@@ -1,0 +1,6 @@
+models:
+  - name: bronze_raw_loans
+    columns:
+      - name: income_str
+        tests:
+          - not_null
