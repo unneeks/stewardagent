@@ -17,3 +17,10 @@ models:
       - name: application_id
         tests:
           - not_null
+version: 2
+models:
+  - name: bronze_raw_loans
+    columns:
+      - name: requested_amount
+        tests:
+          - not_null

@@ -21,3 +21,9 @@ SELECT COALESCE(application_id, 'UNKNOWN') AS application_id,
        requested_amount, 
        coalesce(credit_score, 'N/A') as credit_score
 FROM ext_application_source
+-- [Governance Agent]
+SELECT application_id, 
+       coalesce(income_reported, '0') as income_str, 
+       coalesce(requested_amount, 0) as requested_amount, 
+       coalesce(credit_score, 'N/A') as credit_score
+FROM ext_application_source
