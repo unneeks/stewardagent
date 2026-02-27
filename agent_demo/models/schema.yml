@@ -11,3 +11,9 @@ models:
       - name: credit_score
         tests:
           - not_null
+models:
+  - name: bronze_raw_loans
+    columns:
+      - name: application_id
+        tests:
+          - not_null
